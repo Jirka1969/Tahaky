@@ -1,0 +1,110 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\title{\textbf{Tahák základních příkazů Git (Bash)}}
+\author{{\small © 2025 ~Vaňha Jiří~(\textregistered). Distribuce povolena pro studijní účely.}}
+
+\maketitle
+
+\section*{Základní práce s repozitářem}
+
+\begin{longtable}{>{\ttfamily}p{0.35\linewidth} p{0.6\linewidth}}
+\hline
+git init & Inicializuje nový lokální Git repozitář. \\
+git clone <url> & Naklonuje vzdálený repozitář (např. z GitHubu). \\
+git status & Zobrazí stav pracovního adresáře a změn. \\
+git add <soubor> & Přidá soubor do tzv. staging area (příprava na commit). \\
+git add . & Přidá všechny nové i upravené soubory. \\
+git commit -m "popis" & Uloží změny do historie s popisem. \\
+git log & Zobrazí historii commitů. \\
+git log --oneline & Kratší výpis commitů (hash + zpráva). \\
+git diff & Zobrazí rozdíly oproti poslednímu commitu. \\
+\hline
+\end{longtable}
+
+\section*{Práce s větvemi}
+
+\begin{longtable}{>{\ttfamily}p{0.35\linewidth} p{0.6\linewidth}}
+\hline
+git branch & Zobrazí všechny lokální větve. \\
+git branch <název> & Vytvoří novou větev. \\
+git checkout <název> & Přepne se do dané větve. \\
+git switch <název> & Alternativa k checkout pro přepnutí větve. \\
+git checkout -b <název> & Vytvoří novou větev a rovnou se do ní přepne. \\
+git merge <větev> & Sloučí větev do aktuální. \\
+git branch -d <větev> & Smaže větev (pokud je sloučená). \\
+git branch -D <větev> & Násilně smaže větev (i když není sloučená). \\
+git log master..bug --oneline & Zobrazí commity, které jsou pouze ve větvi \texttt{bug}. \\
+\hline
+\end{longtable}
+
+\section*{Vzdálený repozitář (GitHub, GitLab)}
+
+\begin{longtable}{>{\ttfamily}p{0.35\linewidth} p{0.6\linewidth}}
+\hline
+git remote -v & Zobrazí propojené vzdálené repozitáře. \\
+git remote add origin <url> & Přidá vzdálený repozitář. \\
+git push -u origin master & Nahraje větev \texttt{master} na server. \\
+git push & Nahraje všechny změny. \\
+git pull & Stáhne a sloučí změny z remote repozitáře. \\
+git fetch & Stáhne aktualizace bez automatického sloučení. \\
+git push origin --delete <větev> & Smaže vzdálenou větev. \\
+\hline
+\end{longtable}
+
+\section*{Práce se změnami}
+
+\begin{longtable}{>{\ttfamily}p{0.35\linewidth} p{0.6\linewidth}}
+\hline
+git restore <soubor> & Vrátí soubor do posledního commitu. \\
+git restore --staged <soubor> & Odebere soubor ze stagingu. \\
+git reset --hard & Vrátí vše do stavu posledního commitu (pozor!). \\
+git stash push -m "dočasná záloha" & Uloží rozpracované změny bokem. \\
+git stash list & Zobrazí uložené stash zálohy. \\
+git stash apply stash@{0} & Obnoví konkrétní stash. \\
+git diff master..bug & Porovná rozdíly mezi dvěma větvemi. \\
+\hline
+\end{longtable}
+
+\section*{Patche a archivace}
+
+\begin{longtable}{>{\ttfamily}p{0.35\linewidth} p{0.6\linewidth}}
+\hline
+git diff master..bug > bug.patch & Vytvoří patch soubor se změnami. \\
+git apply bug.patch & Aplikuje patch zpět do aktuální větve. \\
+git format-patch master..bug -o ./patches & Vytvoří sadu patchů po commitech. \\
+git am ./patches/*.patch & Aplikuje všechny patche i s historií. \\
+\hline
+\end{longtable}
+
+\section*{Užitečné informace}
+
+\begin{longtable}{>{\ttfamily}p{0.35\linewidth} p{0.6\linewidth}}
+\hline
+git config --list & Zobrazí aktuální konfiguraci. \\
+git config user.name "Jméno" & Nastaví jméno pro commity. \\
+git config user.email "email@example.com" & Nastaví e-mail. \\
+git show <hash> & Zobrazí detailní informace o commitu. \\
+git reflog & Zobrazí i smazané/ztracené commity. \\
+\hline
+\end{longtable}
+
+\bigskip
+\textit{Poznámka:} Tento tahák obsahuje nejčastěji používané příkazy pro práci s Gitem v prostředí Bash. Lze jej rozšiřovat o pokročilé příkazy jako \texttt{rebase}, \texttt{cherry-pick} nebo \texttt{bisect}.
+
+\end{document}

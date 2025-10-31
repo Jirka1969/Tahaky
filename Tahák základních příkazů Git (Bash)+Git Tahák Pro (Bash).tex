@@ -1,0 +1,157 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\geometry{margin=1.5cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+
+% Sekce a podsekce
+\titleformat{\section}{\Large\bfseries\sffamily}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries\sffamily}{\thesubsection}{1em}{}
+
+% Barvy pro kód
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\setminted{
+    frame=none,
+    bgcolor=bg,
+    fontsize=\footnotesize,
+    breaklines=true,
+    baselinestretch=1.1
+}
+
+\begin{document}
+
+\begin{center}
+{\LARGE \textbf{Git Tahák Pro (Bash)}}\\[4pt]
+{\small © 2025 ~Vaňha Jiří~(\textregistered). Distribuce povolena pro studijní účely.}
+\end{center}
+\hrule
+\vspace{1em}
+
+% =======================
+\section*{Základní práce s repozitářem}
+% =======================
+\begin{longtable}{p{0.38\linewidth}p{0.58\linewidth}}
+\mintinline{bash}{git init} & Inicializuje nový lokální repozitář. \\
+\mintinline{bash}{git clone <url>} & Naklonuje vzdálený repozitář (např. GitHub). \\
+\mintinline{bash}{git status} & Zobrazí aktuální stav pracovního adresáře. \\
+\mintinline{bash}{git add <soubor>} & Přidá konkrétní soubor do stagingu. \\
+\mintinline{bash}{git add .} & Přidá všechny nové a změněné soubory. \\
+\mintinline{bash}{git commit -m "popis"} & Uloží změny do historie s komentářem. \\
+\mintinline{bash}{git log --oneline} & Stručný výpis commitů. \\
+\mintinline{bash}{git diff} & Zobrazí rozdíly oproti poslednímu commitu. \\
+\mintinline{bash}{git show <hash>} & Zobrazí detailní informace o commitu. \\
+\end{longtable}
+
+% =======================
+\section*{Práce s větvemi}
+% =======================
+\begin{longtable}{p{0.38\linewidth}p{0.58\linewidth}}
+\mintinline{bash}{git branch} & Vypíše všechny lokální větve. \\
+\mintinline{bash}{git branch <název>} & Vytvoří novou větev. \\
+\mintinline{bash}{git checkout <název>} & Přepne se do dané větve. \\
+\mintinline{bash}{git checkout -b <název>} & Vytvoří novou větev a přepne se do ní. \\
+\mintinline{bash}{git branch -m <nový>} & Přejmenuje aktuální větev. \\
+\mintinline{bash}{git merge <větev>} & Sloučí danou větev do aktuální. \\
+\mintinline{bash}{git merge --abort} & Zruší probíhající merge (např. při konfliktu). \\
+\mintinline{bash}{git branch -d <větev>} & Smaže větev (pokud je sloučená). \\
+\mintinline{bash}{git branch -D <větev>} & Násilně smaže větev (i když není sloučená). \\
+\mintinline{bash}{git log master..bug --oneline} & Zobrazí commity pouze ve větvi \texttt{bug}. \\
+\mintinline{bash}{git cherry-pick <hash>} & Přidá konkrétní commit z jiné větve. \\
+\end{longtable}
+
+% =======================
+\section*{Vzdálený repozitář (GitHub, GitLab)}
+% =======================
+\begin{longtable}{p{0.38\linewidth}p{0.58\linewidth}}
+\mintinline{bash}{git remote -v} & Zobrazí připojené vzdálené repozitáře. \\
+\mintinline{bash}{git remote add origin <url>} & Přidá vzdálený repozitář. \\
+\mintinline{bash}{git push -u origin master} & Nahraje větev \texttt{master} na server. \\
+\mintinline{bash}{git pull} & Stáhne a sloučí změny z remote repozitáře. \\
+\mintinline{bash}{git fetch} & Stáhne změny bez sloučení. \\
+\mintinline{bash}{git push origin --delete <větev>} & Smaže vzdálenou větev. \\
+\mintinline{bash}{git push origin --tags} & Nahraje všechny lokální tagy. \\
+\end{longtable}
+
+% =======================
+\section*{Práce se změnami a zálohování}
+% =======================
+\begin{longtable}{p{0.38\linewidth}p{0.58\linewidth}}
+\mintinline{bash}{git restore <soubor>} & Vrátí soubor do posledního commitu. \\
+\mintinline{bash}{git restore --staged <soubor>} & Odebere soubor ze stagingu. \\
+\mintinline{bash}{git reset --soft HEAD~1} & Vrátí poslední commit, ale ponechá změny. \\
+\mintinline{bash}{git reset --hard HEAD~1} & Vrátí stav repozitáře o jeden commit zpět (⚠️ destruktivní). \\
+\mintinline{bash}{git stash push -m "záloha"} & Uloží rozpracované změny bokem. \\
+\mintinline{bash}{git stash list} & Zobrazí uložené stash zálohy. \\
+\mintinline{bash}{git stash apply stash@{0}} & Obnoví konkrétní stash. \\
+\mintinline{bash}{git diff master..bug} & Porovná rozdíly mezi dvěma větvemi. \\
+\end{longtable}
+
+% =======================
+\section*{Reverze, obnova a historie}
+% =======================
+\begin{longtable}{p{0.38\linewidth}p{0.58\linewidth}}
+\mintinline{bash}{git revert <hash>} & Vytvoří nový commit, který vrátí změny z daného commitu. \\
+\mintinline{bash}{git reflog} & Zobrazí všechny pohyby HEADu (i smazané commity). \\
+\mintinline{bash}{git log --graph --oneline --all} & Zobrazí historii commitů s větvemi jako graf. \\
+\mintinline{bash}{git blame <soubor>} & Zobrazí, kdo upravil který řádek souboru. \\
+\mintinline{bash}{git shortlog -sn} & Statistika commitů podle autora. \\
+\mintinline{bash}{git checkout <hash>} & Přepne se do konkrétního commitu (detached HEAD). \\
+\end{longtable}
+
+% =======================
+\section*{Tagy a verze}
+% =======================
+\begin{longtable}{p{0.38\linewidth}p{0.58\linewidth}}
+\mintinline{bash}{git tag} & Zobrazí všechny tagy. \\
+\mintinline{bash}{git tag <název>} & Vytvoří lehký tag na aktuální commit. \\
+\mintinline{bash}{git tag -a v1.0 -m "verze 1.0"} & Vytvoří anotovaný tag s popisem. \\
+\mintinline{bash}{git show <tag>} & Zobrazí commit a info tagu. \\
+\mintinline{bash}{git push origin <tag>} & Nahraje tag na server. \\
+\mintinline{bash}{git push origin --tags} & Nahraje všechny lokální tagy. \\
+\mintinline{bash}{git tag -d <tag>} & Smaže lokální tag. \\
+\mintinline{bash}{git describe --tags} & Zobrazí nejbližší tag k aktuálnímu commitu. \\
+\end{longtable}
+
+% =======================
+\section*{Konfigurace a uživatelské nastavení}
+% =======================
+\begin{longtable}{p{0.38\linewidth}p{0.58\linewidth}}
+\mintinline{bash}{git config --list} & Zobrazí aktuální konfiguraci. \\
+\mintinline{bash}{git config user.name "Jméno"} & Nastaví jméno pro commity. \\
+\mintinline{bash}{git config user.email "email@example.com"} & Nastaví e-mail. \\
+\mintinline{bash}{git config --global user.name "Jméno"} & Nastaví jméno globálně pro všechny repozitáře. \\
+\mintinline{bash}{git config --global core.editor "code --wait"} & Nastaví výchozí editor (např. VS Code). \\
+\mintinline{bash}{git config --global color.ui auto} & Zapne barevné výpisy. \\
+\mintinline{bash}{git config --list --show-origin} & Ukáže konfiguraci s cestami k souborům. \\
+\end{longtable}
+
+% =======================
+\section*{Další užitečné příkazy}
+% =======================
+\begin{longtable}{p{0.38\linewidth}p{0.58\linewidth}}
+\mintinline{bash}{git clean -n} & Ukáže, které nesledované soubory by byly smazány. \\
+\mintinline{bash}{git clean -f} & Smaže nesledované (untracked) soubory. \\
+\mintinline{bash}{git mv <starý> <nový>} & Přejmenuje nebo přesune soubor. \\
+\mintinline{bash}{git rm <soubor>} & Smaže soubor ze sledování i z disku. \\
+\mintinline{bash}{git grep <text>} & Vyhledá text v historii commitů nebo souborech. \\
+\mintinline{bash}{git archive -o verze1.zip HEAD} & Vytvoří ZIP archiv aktuálního stavu. \\
+\mintinline{bash}{git bisect start} & Zahájí binární hledání chyby mezi commity. \\
+\end{longtable}
+
+\hrule
+\bigskip
+\textit{Poznámka:}  
+Tento tahák obsahuje nejpoužívanější i rozšířené příkazy Gitu vhodné pro vývojáře, správce kódu a pokročilé uživatele.  
+Kompiluj pomocí \mintinline{bash}{pdflatex -shell-escape Git_tahak_pro.tex} nebo v Overleafu s povoleným \textbf{shell escape}.
+
+\end{document}
